@@ -1,0 +1,2553 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investimento Consciente - Fundos Imobiliários</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset e Estilo Global */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #1a1a1a;
+      color: #e0e0e0;
+      padding: 20px;
+    }
+    
+    body[dir="rtl"] {
+      direction: rtl;
+    }
+
+
+    .app {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* Cabeçalho */
+    header {
+      margin-bottom: 40px;
+    }
+
+    .top-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #333;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      font-size: 2.2em;
+      font-weight: 700;
+      color: #f7d155;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .header-logo {
+      width: 80px;
+      height: 80px;
+    }
+
+    nav {
+      flex-grow: 1;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 35px;
+      justify-content: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #b0b0b0;
+      font-weight: 500;
+      font-size: 1.1em;
+      padding-bottom: 8px;
+      transition: color 0.3s ease;
+      position: relative;
+      cursor: pointer;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #ffffff;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #d4af37;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease-out;
+    }
+    body[dir="rtl"] nav a::after {
+       transform-origin: bottom left;
+    }
+
+
+    nav a:hover::after,
+    nav a.active::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+    body[dir="rtl"] nav a:hover::after,
+    body[dir="rtl"] nav a.active::after {
+       transform-origin: bottom right;
+    }
+
+
+    /* Botão de Registro e Perfil do Usuário */
+    .user-actions {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn-register {
+      padding: 10px 20px;
+      background-color: #cccccc;
+      color: #1a1a1a;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-register:hover {
+      background-color: #b3b3b3;
+    }
+
+    #user-profile {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    #user-nickname {
+      font-weight: 500;
+    }
+
+    #user-profile img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid #555;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 120%;
+      right: 0;
+      background-color: #252525;
+      border: 1px solid #333;
+      border-radius: 8px;
+      min-width: 180px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      overflow: hidden;
+      animation: fadeInDropdown 0.2s ease-out;
+    }
+    body[dir="rtl"] .dropdown-menu {
+        left: 0;
+        right: auto;
+    }
+
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      color: #ccc;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9em;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .dropdown-menu a:hover {
+      background-color: #3c3c3c;
+      color: #fff;
+    }
+
+    @keyframes fadeInDropdown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Seletor de Idioma */
+    .language-selector {
+        position: relative;
+    }
+
+    #current-lang-flag {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid #555;
+        cursor: pointer;
+        display: block;
+    }
+
+    .lang-dropdown {
+        display: none;
+        position: absolute;
+        top: 120%;
+        right: 0;
+        background-color: #252525;
+        border: 1px solid #333;
+        border-radius: 8px;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        z-index: 1002;
+        overflow: hidden;
+        animation: fadeInDropdown 0.2s ease-out;
+    }
+    body[dir="rtl"] .lang-dropdown {
+        left: 0;
+        right: auto;
+    }
+    
+    .lang-dropdown.show {
+        display: block;
+    }
+
+    .lang-dropdown a {
+        color: #ccc;
+        padding: 10px 15px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9em;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .lang-dropdown a:hover {
+        background-color: #3c3c3c;
+        color: #fff;
+    }
+
+    .lang-dropdown img {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+    }
+
+
+    /* Filtros (Aba FII) */
+    .filtros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .filtros input,
+    .filtros button {
+      padding: 12px 18px;
+      border: 1px solid #444;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .filtros input {
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+      width: 240px;
+    }
+
+    .filtros input::placeholder {
+      color: #888;
+    }
+
+    .filtros input:focus {
+      outline: none;
+      border-color: #d4af37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    }
+
+    .filtros button {
+      background-color: #d4af37;
+      color: #1a1a1a;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+    }
+
+    .filtros button:hover {
+      background-color: #c09d2e;
+    }
+
+    /* Grid e Cards (Abas Ativos) */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background-color: #252525;
+      padding: 25px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      border-top: 3px solid #d4af37;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      cursor: pointer; /* Mantido para FIIs */
+    }
+    /* Remove cursor pointer para Cripto, Ações e Exterior por enquanto */
+    #resultado-cripto .card, #resultado-acoes .card, #resultado-exterior .card {
+        cursor: default;
+    }
+
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .card h2 {
+      color: #ffffff;
+      margin-bottom: 15px;
+      font-size: 1.4em;
+      text-align: center; 
+    }
+
+    .card p {
+      margin: 8px 0;
+      line-height: 1.6;
+      color: #b0b0b0;
+    }
+
+    .card p strong {
+      color: #e0e0e0;
+      font-weight: 500;
+    }
+
+    /* Estilos de Valorização (Positiva/Negativa) */
+    .card .valor-positiva {
+        color: #4ade80; /* Verde claro */
+        font-weight: 600;
+    }
+    .card .valor-negativa {
+        color: #f87171; /* Vermelho claro */
+        font-weight: 600;
+    }
+    .card .taxa {
+        font-size: 0.9em;
+        color: #888;
+    }
+
+    #resultado p, #resultado-cripto p, #resultado-acoes p, #resultado-exterior p {
+      text-align: center;
+      color: #888;
+    }
+    
+    .explanation {
+        background-color: #2c2c2c;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border-left: 4px solid #d4af37;
+        font-size: 0.95em;
+        line-height: 1.6;
+        color: #ccc;
+    }
+
+    /* Conteúdo das Abas */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Estilos da Sub-navegação (Ativos e Simulação) */
+    .sub-nav {
+      display: flex;
+      flex-wrap: wrap; 
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 20px;
+    }
+    .sub-nav-link {
+      padding: 10px 20px;
+      text-decoration: none;
+      color: #b0b0b0;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
+      cursor: pointer;
+      white-space: nowrap; 
+    }
+    .sub-nav-link:hover {
+      background-color: #2c2c2c;
+      color: #ffffff;
+    }
+    .sub-nav-link.active {
+      background-color: #d4af37;
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+    .sub-tab-content {
+      display: none;
+    }
+    .sub-tab-content.active {
+      display: block;
+    }
+
+    /* Aba Início */
+    .welcome-section {
+      text-align: center;
+      padding: 28px 20px 80px 20px; 
+    }
+
+    .welcome-section h1 {
+      font-size: 3.5em;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .welcome-section p {
+      font-size: 1.2em;
+      color: #b0b0b0;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    /* Botão de Registro Grande (Aba Início) */
+    .welcome-section .btn-register-large {
+        display: none; 
+        margin: 40px auto 0 auto;
+        padding: 18px 40px;
+        font-size: 1.4em;
+        font-weight: 700;
+        background-color: #d4af37;
+        color: #1a1a1a;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
+    }
+    .welcome-section .btn-register-large:hover {
+        background-color: #c09d2e;
+        transform: translateY(-3px);
+    }
+
+
+    /* Aba Novidades */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    .news-card {
+      background-color: #252525;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #333;
+      transition: transform 0.3s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .news-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+      background-color: #2c2c2c;
+    }
+
+    .news-content {
+      padding: 20px;
+    }
+
+    .news-content h3 {
+      color: #e0e0e0;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+
+    .news-content p {
+      color: #a0a0a0;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+
+    /* Modal de Registro */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(26, 26, 26, 0.9);
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .modal.active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #0d0d0d;
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      animation: slideIn 0.4s ease-in-out;
+      border: 1px solid #222;
+    }
+
+    .close-button {
+      color: #777;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    body[dir="rtl"] .close-button {
+        right: auto;
+        left: 15px;
+    }
+
+    .close-button:hover {
+      color: #fff;
+    }
+
+    .modal-content h2 {
+      text-align: center;
+      color: #d4af37;
+      margin-bottom: 35px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1.8em;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Estilos do Formulário (Registro e Simulação) */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label, #simulacao-form label, #cdi-form label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ccc;
+      font-size: 0.9em;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    .form-group input, #simulacao-form input, #simulacao-form select, #cdi-form input, #cdi-form select {
+      width: 100%;
+      padding: 14px;
+      background-color: #2c2c2c; 
+      border: 1px solid #444; 
+      border-radius: 8px;
+      color: #e0e0e0; 
+      font-size: 1em;
+      font-family: 'Inter', sans-serif;
+    }
+
+     #simulacao-form select, #cdi-form select {
+        padding: 13px; /* Ajuste para alinhar altura */
+     }
+
+    .form-group input:focus, #simulacao-form input:focus, #simulacao-form select:focus, #cdi-form input:focus, #cdi-form select:focus {
+      outline: none;
+      border-color: #d4af37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    }
+    
+     #simulacao-form input[type="number"], #cdi-form input[type="number"] {
+        appearance: textfield; 
+     }
+     #simulacao-form input[type="number"]::-webkit-inner-spin-button,
+     #simulacao-form input[type="number"]::-webkit-outer-spin-button,
+     #cdi-form input[type="number"]::-webkit-inner-spin-button,
+     #cdi-form input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+     }
+
+    /* Grupo de Radio Buttons (Calculadora CDI) */
+    .radio-group {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+    .radio-group label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        color: #b0b0b0;
+        font-size: 0.95em;
+    }
+     .radio-group input[type="radio"] {
+        width: auto; /* Tamanho padrão */
+        accent-color: #d4af37; /* Cor do radio selecionado */
+     }
+
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background-color: #00ffff;
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 15px;
+      text-transform: uppercase;
+    }
+
+    .btn-submit:hover {
+      background-color: #00e0e0;
+    }
+
+    /* Seção de simulação (FII) */
+    #simulacao {
+      background: #1f1f1f;
+      padding: 30px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      margin-top: 40px;
+      display: none;
+    }
+
+    #simulacao h2 {
+      margin-bottom: 20px;
+      color: #d4af37;
+      text-align: center;
+    }
+    
+    .simulacao-controles {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    #simulacao label {
+      margin-right: 10px;
+    }
+
+    #simulacao input {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background: #2c2c2c;
+      color: #fff;
+    }
+
+    #simulacao button {
+      padding: 8px 16px;
+      background: #d4af37;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #1a1a1a;
+    }
+    
+    #detalhes {
+        margin-bottom: 20px;
+        line-height: 1.7;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 400px;
+        width: 100%;
+    }
+    
+    /* Aba Simulação */
+    #simulacao-tab h1 { /* Título principal da aba */
+        text-align: center;
+        margin-bottom: 15px; /* Menos espaço abaixo do título principal */
+        color: #d4af37;
+    }
+    
+    /* Formulários dentro da Aba Simulação */
+    #simulacao-form, #cdi-form {
+        max-width: 700px; /* Um pouco maior */
+        margin: 0 auto 40px auto;
+        background-color: #252525;
+        padding: 30px;
+        border-radius: 10px;
+        border: 1px solid #333;
+    }
+    
+    #cdi-form {
+        margin-top: 0; /* Remove margem extra no topo */
+    }
+
+    #simulacao-form .form-grid, #cdi-form .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    /* Botões dentro dos formulários */
+    #simulacao-form button, #cdi-form button {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background-color: #d4af37;
+        color: #1a1a1a;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+    }
+    
+    #simulacao-form button:hover, #cdi-form button:hover {
+        background-color: #c09d2e;
+    }
+    
+    /* Resultados das Simulações */
+    #resultado-simulacao, #resultado-cdi {
+        background-color: #252525;
+        padding: 30px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        margin-top: 30px;
+        display: none; /* Começa escondido */
+    }
+    
+    #resultado-simulacao h2, #resultado-cdi h2 {
+        color: #d4af37;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    #resultado-simulacao h3, #resultado-cdi h3 {
+        color: #e0e0e0;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #444;
+        padding-bottom: 10px;
+    }
+    
+    #resultado-simulacao p, #resultado-simulacao li, #resultado-cdi p {
+        color: #b0b0b0;
+        line-height: 1.6;
+        margin-bottom: 10px;
+    }
+     #resultado-simulacao ul {
+        list-style-position: inside;
+        padding-left: 0;
+     }
+
+     #resultado-simulacao strong, #resultado-cdi strong {
+        color: #e0e0e0;
+     }
+     
+     #projecao-tabela {
+        width: 100%;
+        margin-top: 15px;
+        border-collapse: collapse;
+     }
+     #projecao-tabela th, #projecao-tabela td {
+        border: 1px solid #444;
+        padding: 10px;
+        text-align: center;
+     }
+     #projecao-tabela th {
+        background-color: #333;
+        color: #d4af37;
+     }
+
+    /* Estilo para o gráfico de pizza */
+    #alocacao-chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 350px; /* Ajuste o tamanho máximo */
+      margin: 20px auto;
+      height: 350px; /* Ajuste a altura */
+    }
+    #alocacao-chart-container canvas {
+      max-height: 100%;
+      max-width: 100%;
+    }
+
+
+    /* Carrossel */
+    .carousel-container {
+      position: relative;
+      margin: 40px auto;
+      width: 90%;
+      max-width: 900px;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid #333;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      object-fit: cover;
+      height: 300px;
+      user-select: none;
+      display: block;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(26, 26, 26, 0.7);
+      border: none;
+      color: #fff;
+      font-size: 1.5em;
+      padding: 10px 15px;
+      cursor: pointer;
+      z-index: 10;
+      transition: background-color 0.3s;
+      border-radius: 8px;
+    }
+
+    .carousel-btn:hover {
+      background-color: rgba(212, 175, 55, 0.8);
+    }
+
+    .carousel-btn.left {
+      left: 10px;
+    }
+    body[dir="rtl"] .carousel-btn.left {
+        left: auto;
+        right: 10px;
+    }
+
+
+    .carousel-btn.right {
+      right: 10px;
+    }
+     body[dir="rtl"] .carousel-btn.right {
+        right: auto;
+        left: 10px;
+    }
+    
+    /* Responsividade */
+    @media (max-width:850px) {
+      .top-navigation {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+      }
+    }
+
+    @media (max-width:600px) {
+      .filtros {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .filtros input,
+      .filtros button {
+        width: 100%;
+        max-width: 350px;
+      }
+
+      .welcome-section h1 {
+        font-size: 2.5em;
+      }
+       #simulacao-form .form-grid, #cdi-form .form-grid {
+           grid-template-columns: 1fr; /* Uma coluna em telas menores */
+       }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <div class="top-navigation">
+        <h1 class="header-title" onclick="showTab('inicio')">
+          <img src="imgs/logo.png" alt="Logo" class="header-logo">
+          <span data-key="brand_name">Prime State</span>
+        </h1>
+        <nav>
+          <ul>
+            <li><a href="#" class="nav-link active" data-tab="inicio" data-key="nav_home">Início</a></li>
+            <li><a href="#" class="nav-link" data-tab="ativos" data-key="nav_assets">Ativos</a></li>
+            <li><a href="#" class="nav-link" data-tab="simulacao-tab" data-key="nav_simulation">Simulação</a></li>
+            <li><a href="#" class="nav-link" data-tab="novidades" data-key="nav_news">Novidades</a></li>
+          </ul>
+        </nav>
+        <div class="user-actions">
+            <div class="language-selector">
+                <img id="current-lang-flag" src="imgs/brasil.jpg" alt="Idioma">
+                <div class="lang-dropdown">
+                    <a href="#" data-lang="pt"><img src="imgs/brasil.jpg" alt="Português"> Português</a>
+                    <a href="#" data-lang="en"><img src="imgs/eua.jpg" alt="English"> English</a>
+                    <a href="#" data-lang="ar"><img src="imgs/arabia_saudita.jpg" alt="العربية"> العربية</a>
+                </div>
+            </div>
+          <button class="btn-register" id="header-register-btn" onclick="openRegisterModal()" data-key="register">Registrar</button>
+          <div id="user-profile">
+            <span id="user-nickname"></span>
+            <img src="imgs/perfil.png" alt="Perfil">
+            <div class="dropdown-menu">
+              <a href="#" data-key="dropdown_sims">Simulações</a>
+              <a href="#" data-key="dropdown_settings">Configurações</a>
+              <a href="#" id="logout-btn" data-key="dropdown_logout">Sair</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Aba Início --><div id="inicio" class="tab-content active">
+        <div class="welcome-section">
+          <h1 data-key="welcome_title">Bem-vindo à Prime State</h1>
+          <p data-key="welcome_subtitle">A Prime State simplifica o processo de construção e gestão da sua carteira de investimentos, independentemente do seu nível de experiência. Tudo o que você precisa é de vontade! <span data-key="welcome_extra">Nós temos o que você precisa.</span></p>
+          <button class="btn-register-large" id="welcome-register-btn" onclick="openRegisterModal()" data-key="register_large_btn">Comece a Investir Agora!</button>
+        </div>
+
+        <div class="carousel-container">
+          <button class="carousel-btn left">&#10094;</button>
+          <div class="carousel-track">
+            <img src="imgs/imagem1.PNG" class="carousel-slide" alt="Recomendado 1">
+            <img src="imgs/imagem2.jpg" class="carousel-slide" alt="Recomendado 2">
+            <img src="imgs/imagem3.jpg" class="carousel-slide" alt="Recomendado 3">
+          </div>
+          <button class="carousel-btn right">&#10095;</button>
+        </div>
+      </div>
+
+      <!-- Aba Ativos --><div id="ativos" class="tab-content">
+        
+        <!-- Sub-navegação --><div class="sub-nav">
+          <a href="#" class="sub-nav-link active" data-sub-tab="fii" data-key="subnav_fii">FII</a>
+          <a href="#" class="sub-nav-link" data-sub-tab="cripto" data-key="subnav_crypto">Cripto</a>
+          <a href="#" class="sub-nav-link" data-sub-tab="acoes" data-key="subnav_stocks">Ações</a>
+          <a href="#" class="sub-nav-link" data-sub-tab="exterior" data-key="subnav_foreign">Exterior</a> 
+        </div>
+
+        <!-- Sub-aba FII --><div id="fii" class="sub-tab-content active">
+          <div class="filtros">
+            <input type="text" id="tipo" data-key="filter_placeholder_type" placeholder="Tipo (ex: Tijolo, Papel)">
+            <input type="number" id="minDY" data-key="filter_placeholder_dy" placeholder="DY mínimo (%)">
+            <button data-key="filter_button">Buscar</button>
+          </div>
+          <div id="resultado">
+            <p data-key="loading_data">Carregando dados...</p>
+          </div>
+
+          <!-- Simulação Fundos --><div id="simulacao">
+            <h2 data-key="sim_fii_title">Simulação de Investimento</h2>
+            <div class="simulacao-controles">
+              <div>
+                <label for="valorInvestimento" data-key="sim_label_initial_fii">Valor a investir (R$):</label>
+                <input type="number" id="valorInvestimento" value="1000" min="100" step="100">
+              </div>
+              <div>
+                <label for="aporteMensal" data-key="sim_label_monthly_fii">Aporte mensal (R$):</label>
+                <input type="number" id="aporteMensal" value="100" min="0" step="50">
+              </div>
+              <button id="simular-btn" data-key="sim_button_fii">Simular</button>
+            </div>
+
+            <div id="detalhes"></div>
+            <div class="chart-container">
+              <canvas id="grafico"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-aba Cripto --><div id="cripto" class="sub-tab-content">
+          <div id="resultado-cripto">
+             <p data-key="loading_crypto">Carregando dados de Cripto...</p>
+          </div>
+        </div>
+        
+        <!-- Sub-aba Ações --><div id="acoes" class="sub-tab-content">
+           <div id="resultado-acoes">
+              <p data-key="loading_stocks">Carregando dados de Ações...</p>
+           </div>
+        </div>
+
+        <!-- Sub-aba Exterior --><div id="exterior" class="sub-tab-content">
+           <div class="explanation">
+               <p data-key="foreign_explanation">Investir no exterior permite diversificar sua carteira em outras moedas e acessar grandes empresas globais. Geralmente, isso é feito através de corretoras internacionais ou BDRs (Brazilian Depositary Receipts) negociados na bolsa brasileira. Esteja ciente de que podem incidir taxas de câmbio e outras tarifas operacionais.</p>
+           </div>
+           <div id="resultado-exterior">
+              <p data-key="loading_foreign">Carregando dados de Ações do Exterior...</p>
+           </div>
+        </div>
+
+      </div>
+
+       <!-- Aba Simulação --><div id="simulacao-tab" class="tab-content">
+           <h1 data-key="sim_main_title">Simuladores de Investimento</h1>
+
+            <!-- Sub-navegação da Simulação -->
+            <div class="sub-nav">
+              <a href="#" class="sub-nav-link active" data-sim-sub-tab="carteira-diversificada" data-key="sim_subnav_diversified">Carteira Diversificada</a>
+              <a href="#" class="sub-nav-link" data-sim-sub-tab="calculadora-cdi" data-key="sim_subnav_fixed">Calculadora Renda Fixa</a>
+            </div>
+
+            <!-- Sub-aba Carteira Diversificada -->
+            <div id="carteira-diversificada" class="sub-tab-content active">
+               <!-- Título Removido -->
+               <form id="simulacao-form">
+                   <div class="form-grid">
+                       <div class="form-group">
+                           <label for="sim-salario" data-key="sim_label_salary">Salário Mensal (R$):</label>
+                           <input type="number" id="sim-salario" data-key="sim_placeholder_salary" placeholder="Ex: 5000" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="sim-gastos-fixos" data-key="sim_label_fixed_expenses">Gastos Mensais Fixos (R$):</label>
+                           <input type="number" id="sim-gastos-fixos" data-key="sim_placeholder_fixed_expenses" placeholder="Aluguel, contas..." required>
+                       </div>
+                       <div class="form-group">
+                           <label for="sim-gastos-variaveis" data-key="sim_label_variable_expenses">Gastos Variáveis Médios (R$):</label>
+                           <input type="number" id="sim-gastos-variaveis" data-key="sim_placeholder_variable_expenses" placeholder="Lazer, alimentação fora..." required>
+                       </div>
+                       <div class="form-group">
+                           <label for="sim-investimento-inicial" data-key="sim_label_initial_investment">Valor Inicial para Investir (R$):</label>
+                           <input type="number" id="sim-investimento-inicial" data-key="sim_placeholder_initial_investment" placeholder="Opcional" value="0">
+                       </div>
+                       <div class="form-group">
+                           <label for="sim-investimento-mensal" data-key="sim_label_monthly_investment">Valor Mensal para Investir (R$):</label>
+                           <input type="number" id="sim-investimento-mensal" data-key="sim_placeholder_monthly_investment" placeholder="Quanto você pode aportar?" required min="1">
+                       </div>
+                       <div class="form-group">
+                           <label for="sim-perfil" data-key="sim_label_risk_profile">Seu Perfil de Risco:</label>
+                           <select id="sim-perfil" required>
+                               <option value="" data-key="select_option">Selecione...</option>
+                               <option value="conservador" data-key="profile_conservative">Conservador</option>
+                               <option value="moderado" data-key="profile_moderate">Moderado</option>
+                               <option value="alto_risco" data-key="profile_high_risk">Alto Risco</option>
+                           </select>
+                       </div>
+                       <div class="form-group">
+                           <label for="sim-objetivo" data-key="sim_label_objective">Principal Objetivo:</label>
+                           <select id="sim-objetivo" required>
+                               <option value="" data-key="select_option">Selecione...</option>
+                               <option value="emergencia" data-key="objective_emergency">Reserva de Emergência</option>
+                               <option value="imovel" data-key="objective_property">Comprar Imóvel</option>
+                               <option value="aposentadoria" data-key="objective_retirement">Aposentadoria</option>
+                               <option value="outro" data-key="objective_other">Outro</option>
+                           </select>
+                       </div>
+                       <div class="form-group">
+                           <label for="sim-prazo" data-key="sim_label_term">Prazo do Investimento:</label>
+                           <select id="sim-prazo" required>
+                               <option value="" data-key="select_option">Selecione...</option>
+                               <option value="curto" data-key="term_short">Curto Prazo (até 2 anos)</option>
+                               <option value="medio" data-key="term_medium">Médio Prazo (2-5 anos)</option>
+                               <option value="longo" data-key="term_long">Longo Prazo (acima de 5 anos)</option>
+                           </select>
+                       </div>
+                   </div>
+                   <button type="submit" data-key="generate_simulation">Gerar Simulação</button>
+               </form>
+
+               <div id="resultado-simulacao">
+                   <!-- O resultado da carteira diversificada será inserido aqui -->
+                   <!-- Container para o gráfico de pizza -->
+                   <div id="alocacao-chart-container">
+                       <canvas id="alocacao-pie-chart"></canvas>
+                   </div>
+               </div>
+            </div>
+
+            <!-- Sub-aba Calculadora Renda Fixa -->
+            <div id="calculadora-cdi" class="sub-tab-content">
+                 <!-- Título Removido -->
+                <form id="cdi-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="cdi-inicial" data-key="fixed_label_initial">Investimento Inicial (R$):</label>
+                            <input type="number" id="cdi-inicial" value="1000" min="0" step="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cdi-mensal" data-key="fixed_label_monthly">Investimento Mensal (R$):</label>
+                            <input type="number" id="cdi-mensal" value="100" min="0" step="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cdi-prazo" data-key="fixed_label_term_years">Prazo (Anos):</label>
+                            <input type="number" id="cdi-prazo" value="5" min="1" step="1" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="cdi-rentabilidade" data-key="fixed_label_yield">Rentabilidade Anual (%):</label>
+                            <input type="number" id="cdi-rentabilidade" value="10" min="0" step="0.1" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-key="fixed_label_indexer">Indexador:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="indexador" value="pre" checked> <span data-key="indexer_pre">Pré-fixado</span></label>
+                            <label><input type="radio" name="indexador" value="pos"> <span data-key="indexer_pos">Pós-fixado (CDI)</span></label>
+                            <label><input type="radio" name="indexador" value="ipca"> <span data-key="indexer_ipca">IPCA +</span></label>
+                        </div>
+                    </div>
+                    <button type="submit" data-key="calculate">Calcular</button>
+                </form>
+
+                <div id="resultado-cdi">
+                    <!-- O resultado do cálculo CDI será inserido aqui -->
+                </div>
+            </div>
+       </div>
+
+
+      <!-- Aba Novidades --><div id="novidades" class="tab-content">
+        <div class="news-grid">
+          <!-- As notícias serão geradas dinamicamente -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal de Registro --><div id="register-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeRegisterModal()">&times;</span>
+      <h2 data-key="brand_name">Prime State</h2>
+      <form id="register-form">
+        <div class="form-group">
+          <label for="nickname" data-key="form_nickname">Nickname</label>
+          <input type="text" id="nickname" required>
+        </div>
+        <div class="form-group">
+          <label for="email" data-key="form_email">Email</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password" data-key="form_password">Senha</label>
+          <input type="password" id="password" required>
+        </div>
+        <div class="form-group">
+          <label for="password-confirm" data-key="form_confirm_password">Confirmar senha</label>
+          <input type="password" id="password-confirm" required>
+        </div>
+        <button type="submit" class="btn-submit" data-key="register">Registrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Chart.js --><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    let chartInstance = null; // Para o gráfico de linha (FII)
+    let fiiSelecionado = null;
+    let slideIndex = 0;
+    let pieChartInstance = null; // Para o gráfico de pizza (Simulação)
+    let currentLanguage = 'pt'; // Define o idioma padrão
+    
+    // --- DADOS DE TRADUÇÃO ---
+    const translations = {
+        pt: {
+            brand_name: "Prime State",
+            nav_home: "Início",
+            nav_assets: "Ativos",
+            nav_simulation: "Simulação",
+            nav_news: "Novidades",
+            register: "Registrar",
+            dropdown_sims: "Simulações",
+            dropdown_settings: "Configurações",
+            dropdown_logout: "Sair",
+            welcome_title: "Bem-vindo à Prime State",
+            welcome_subtitle: "A Prime State simplifica o processo de construção e gestão da sua carteira de investimentos, independentemente do seu nível de experiência. Tudo o que você precisa é de vontade!",
+            welcome_extra: "Nós temos o que você precisa.",
+            register_large_btn: "Comece a Investir Agora!",
+            subnav_fii: "FII",
+            subnav_crypto: "Cripto",
+            subnav_stocks: "Ações",
+            subnav_foreign: "Exterior",
+            filter_placeholder_type: "Tipo (ex: Tijolo, Papel)",
+            filter_placeholder_dy: "DY mínimo (%)",
+            filter_button: "Buscar",
+            loading_data: "Carregando dados...",
+            loading_crypto: "Carregando dados de Cripto...",
+            loading_stocks: "Carregando dados de Ações...",
+            loading_foreign: "Carregando dados de Ações do Exterior...",
+            no_funds_found: "Nenhum fundo encontrado.",
+            no_crypto_found: "Nenhuma criptomoeda encontrada.",
+            no_stocks_found: "Nenhuma ação encontrada.",
+            no_foreign_found: "Nenhuma ação do exterior encontrada.",
+            card_type: "Tipo",
+            card_sector: "Setor",
+            card_price: "Preço",
+            card_price_usd: "Preço (US$)",
+            card_name: "Nome",
+            card_company: "Empresa",
+            card_val_15d: "Valorização 15d",
+            card_val_30d: "Valorização 30d",
+            card_buy_fee: "Taxa de Compra",
+            sim_fii_title: "Simulação de Investimento",
+            sim_label_initial_fii: "Valor a investir (R$):",
+            sim_label_monthly_fii: "Aporte mensal (R$):",
+            sim_button_fii: "Simular",
+            sim_details_fii_label: "FII", // Label FII no resultado
+            sim_details_total_fii: "Total após 12 meses",
+            sim_chart_label_fii: "Projeção do Investimento",
+            sim_chart_start: "Início",
+            month: "mês",
+            months: "meses",
+            foreign_explanation: "Investir no exterior permite diversificar sua carteira em outras moedas e acessar grandes empresas globais. Geralmente, isso é feito através de corretoras internacionais ou BDRs (Brazilian Depositary Receipts) negociados na bolsa brasileira. Esteja ciente de que podem incidir taxas de câmbio e outras tarifas operacionais.",
+            sim_main_title: "Simuladores de Investimento",
+            sim_subnav_diversified: "Carteira Diversificada",
+            sim_subnav_fixed: "Calculadora Renda Fixa",
+            sim_label_salary: "Salário Mensal (R$):",
+            sim_placeholder_salary: "Ex: 5000",
+            sim_label_fixed_expenses: "Gastos Mensais Fixos (R$):",
+            sim_placeholder_fixed_expenses: "Aluguel, contas...",
+            sim_label_variable_expenses: "Gastos Variáveis Médios (R$):",
+            sim_placeholder_variable_expenses: "Lazer, alimentação fora...",
+            sim_label_initial_investment: "Valor Inicial para Investir (R$):",
+            sim_placeholder_initial_investment: "Opcional",
+            sim_label_monthly_investment: "Valor Mensal para Investir (R$):",
+            sim_placeholder_monthly_investment: "Quanto você pode aportar?",
+            sim_label_risk_profile: "Seu Perfil de Risco:",
+            sim_label_objective: "Principal Objetivo:",
+            sim_label_term: "Prazo do Investimento:",
+            select_option: "Selecione...",
+            profile_conservative: "Conservador",
+            profile_moderate: "Moderado",
+            profile_high_risk: "Alto Risco",
+            objective_emergency: "Reserva de Emergência",
+            objective_property: "Comprar Imóvel",
+            objective_retirement: "Aposentadoria",
+            objective_other: "Outro",
+            term_short: "Curto Prazo (até 2 anos)",
+            term_medium: "Médio Prazo (2-5 anos)",
+            term_long: "Longo Prazo (acima de 5 anos)",
+            generate_simulation: "Gerar Simulação",
+            sim_result_title: "Resultado da Simulação Personalizada",
+            sim_result_profile: "Perfil Identificado",
+            sim_result_intro: "Com base nas suas respostas, sugerimos a seguinte alocação para seus investimentos mensais de",
+            sim_result_allocation_title: "Alocação Sugerida:",
+            sim_result_rec_title: "Melhores Opções para Cada Categoria:",
+            sim_result_rec_fixed: "Renda Fixa:",
+            sim_result_rec_fii: "Fundos Imobiliários:",
+            sim_result_rec_stocks: "Ações:",
+            sim_result_rec_crypto: "Criptomoedas:",
+            sim_result_proj_title: "Projeção Detalhada para 12 Meses:",
+            sim_result_proj_intro: "Considerando um investimento inicial de R$ {initial} e aportes mensais de R$ {monthly}, com base nas taxas de retorno *hipotéticas*:",
+            sim_result_table_month: "Mês",
+            sim_result_table_value: "Valor Projetado",
+            sim_result_final_title: "Valor Final Projetado após 12 Meses:",
+            sim_result_disclaimer: "Lembre-se: Esta é uma simulação simplificada. Rentabilidade passada não garante rentabilidade futura. Consulte um profissional antes de investir.",
+            fixed_label_initial: "Investimento Inicial (R$):",
+            fixed_label_monthly: "Investimento Mensal (R$):",
+            fixed_label_term_years: "Prazo (Anos):",
+            fixed_label_yield: "Rentabilidade Anual (%):",
+            fixed_label_indexer: "Indexador:",
+            indexer_pre: "Pré-fixado",
+            indexer_pos: "Pós-fixado (CDI)",
+            indexer_ipca: "IPCA +",
+            calculate: "Calcular",
+            fixed_result_title: "Resultado da Simulação Renda Fixa",
+            fixed_result_initial: "Valor Inicial",
+            fixed_result_monthly: "Aportes Mensais",
+            fixed_result_term: "Prazo",
+            fixed_result_years: "anos",
+            fixed_result_months: "meses",
+            fixed_result_rate: "Taxa Anual",
+            fixed_result_total_invested: "Valor Total Investido",
+            fixed_result_total_interest: "Total em Juros",
+            fixed_result_final_gross: "Valor Final Bruto",
+            fixed_result_tax_disclaimer: "(Simulação sem impostos. Consulte as regras de tributação para seu investimento.)",
+            alert_invalid_input: "Prazo e Rentabilidade devem ser maiores que zero.",
+            alert_fill_all: "Por favor, preencha todos os campos do questionário.",
+            alert_monthly_investment: "O valor mensal para investir deve ser maior que zero.",
+            form_nickname: "Nickname",
+            form_email: "Email",
+            form_password: "Senha",
+            form_confirm_password: "Confirmar senha",
+            alert_password_mismatch: "As senhas não coincidem!",
+            form_registering: "Registrando...",
+            form_registered: "Registrado!",
+            chart_pie_fixed: "Renda Fixa",
+            chart_pie_fii: "FIIs",
+            chart_pie_stocks: "Ações",
+            chart_pie_crypto: "Criptomoedas",
+        },
+        en: {
+            brand_name: "Prime State",
+            nav_home: "Home",
+            nav_assets: "Assets",
+            nav_simulation: "Simulation",
+            nav_news: "News",
+            register: "Register",
+            dropdown_sims: "Simulations",
+            dropdown_settings: "Settings",
+            dropdown_logout: "Logout",
+            welcome_title: "Welcome to Prime State",
+            welcome_subtitle: "Prime State simplifies the process of building and managing your investment portfolio, regardless of your experience level. All you need is the will!",
+            welcome_extra: "We have what you need.",
+            register_large_btn: "Start Investing Now!",
+            subnav_fii: "REITs",
+            subnav_crypto: "Crypto",
+            subnav_stocks: "Stocks",
+            subnav_foreign: "Foreign",
+            filter_placeholder_type: "Type (e.g., Brick, Paper)",
+            filter_placeholder_dy: "Minimum DY (%)",
+            filter_button: "Search",
+            loading_data: "Loading data...",
+            loading_crypto: "Loading Crypto data...",
+            loading_stocks: "Loading Stocks data...",
+            loading_foreign: "Loading Foreign Stocks data...",
+            no_funds_found: "No funds found.",
+            no_crypto_found: "No cryptocurrencies found.",
+            no_stocks_found: "No stocks found.",
+            no_foreign_found: "No foreign stocks found.",
+            card_type: "Type",
+            card_sector: "Sector",
+            card_price: "Price (BRL)",
+            card_price_usd: "Price (USD)",
+            card_name: "Name",
+            card_company: "Company",
+            card_val_15d: "15d Return",
+            card_val_30d: "30d Return",
+            card_buy_fee: "Purchase Fee",
+            sim_fii_title: "Investment Simulation",
+            sim_label_initial_fii: "Amount to invest (BRL):",
+            sim_label_monthly_fii: "Monthly contribution (BRL):",
+            sim_button_fii: "Simulate",
+            sim_details_fii_label: "REIT", // Label FII no resultado
+            sim_details_total_fii: "Total after 12 months",
+            sim_chart_label_fii: "Investment Projection",
+            sim_chart_start: "Start",
+            month: "month",
+            months: "months",
+            foreign_explanation: "Investing abroad allows you to diversify your portfolio into other currencies and access major global companies. This is usually done through international brokers or BDRs (Brazilian Depositary Receipts) traded on the Brazilian stock exchange. Be aware that currency exchange rates and other operational fees may apply.",
+            sim_main_title: "Investment Simulators",
+            sim_subnav_diversified: "Diversified Portfolio",
+            sim_subnav_fixed: "Fixed Income Calculator",
+            sim_label_salary: "Monthly Salary (BRL):",
+            sim_placeholder_salary: "Ex: 5000",
+            sim_label_fixed_expenses: "Fixed Monthly Expenses (BRL):",
+            sim_placeholder_fixed_expenses: "Rent, bills...",
+            sim_label_variable_expenses: "Average Variable Expenses (BRL):",
+            sim_placeholder_variable_expenses: "Leisure, dining out...",
+            sim_label_initial_investment: "Initial Amount to Invest (BRL):",
+            sim_placeholder_initial_investment: "Optional",
+            sim_label_monthly_investment: "Monthly Amount to Invest (BRL):",
+            sim_placeholder_monthly_investment: "How much can you contribute?",
+            sim_label_risk_profile: "Your Risk Profile:",
+            sim_label_objective: "Main Objective:",
+            sim_label_term: "Investment Term:",
+            select_option: "Select...",
+            profile_conservative: "Conservative",
+            profile_moderate: "Moderate",
+            profile_high_risk: "High Risk",
+            objective_emergency: "Emergency Fund",
+            objective_property: "Buy Property",
+            objective_retirement: "Retirement",
+            objective_other: "Other",
+            term_short: "Short Term (up to 2 years)",
+            term_medium: "Medium Term (2-5 years)",
+            term_long: "Long Term (over 5 years)",
+            generate_simulation: "Generate Simulation",
+            sim_result_title: "Personalized Simulation Result",
+            sim_result_profile: "Identified Profile",
+            sim_result_intro: "Based on your answers, we suggest the following allocation for your monthly investments of",
+            sim_result_allocation_title: "Suggested Allocation:",
+            sim_result_rec_title: "Best Options for Each Category:",
+            sim_result_rec_fixed: "Fixed Income:",
+            sim_result_rec_fii: "Real Estate Funds:",
+            sim_result_rec_stocks: "Stocks:",
+            sim_result_rec_crypto: "Cryptocurrencies:",
+            sim_result_proj_title: "Detailed 12-Month Projection:",
+            sim_result_proj_intro: "Considering an initial investment of BRL {initial} and monthly contributions of BRL {monthly}, based on *hypothetical* rates of return:",
+            sim_result_table_month: "Month",
+            sim_result_table_value: "Projected Value",
+            sim_result_final_title: "Projected Final Value after 12 Months:",
+            sim_result_disclaimer: "Remember: This is a simplified simulation. Past performance does not guarantee future results. Consult a professional before investing.",
+            fixed_label_initial: "Initial Investment ($):",
+            fixed_label_monthly: "Monthly Investment ($):",
+            fixed_label_term_years: "Term (Years):",
+            fixed_label_yield: "Annual Yield (%):",
+            fixed_label_indexer: "Indexer:",
+            indexer_pre: "Pre-fixed",
+            indexer_pos: "Post-fixed (CDI)",
+            indexer_ipca: "IPCA +",
+            calculate: "Calculate",
+            fixed_result_title: "Fixed Income Simulation Result",
+            fixed_result_initial: "Initial Value",
+            fixed_result_monthly: "Monthly Contributions",
+            fixed_result_term: "Term",
+            fixed_result_years: "years",
+            fixed_result_months: "months",
+            fixed_result_rate: "Annual Rate",
+            fixed_result_total_invested: "Total Amount Invested",
+            fixed_result_total_interest: "Total Interest",
+            fixed_result_final_gross: "Gross Final Value",
+            fixed_result_tax_disclaimer: "(Simulation without taxes. Consult the taxation rules for your investment.)",
+            alert_invalid_input: "Term and Yield must be greater than zero.",
+            alert_fill_all: "Please fill in all fields of the questionnaire.",
+             alert_monthly_investment: "The monthly amount to invest must be greater than zero.",
+            form_nickname: "Nickname",
+            form_email: "Email",
+            form_password: "Password",
+            form_confirm_password: "Confirm password",
+            alert_password_mismatch: "Passwords do not match!",
+            form_registering: "Registering...",
+            form_registered: "Registered!",
+            chart_pie_fixed: "Fixed Income",
+            chart_pie_fii: "REITs",
+            chart_pie_stocks: "Stocks",
+            chart_pie_crypto: "Crypto",
+        },
+        ar: {
+            brand_name: "برايم ستيت",
+            nav_home: "الرئيسية",
+            nav_assets: "الأصول",
+            nav_simulation: "المحاكاة",
+            nav_news: "الأخبار",
+            register: "تسجيل",
+            dropdown_sims: "المحاكاة",
+            dropdown_settings: "الإعدادات",
+            dropdown_logout: "خروج",
+            welcome_title: "أهلاً بك في برايم ستيت",
+            welcome_subtitle: "برايم ستيت تبسط عملية بناء وإدارة محفظتك الاستثمارية، بغض النظر عن مستوى خبرتك. كل ما تحتاجه هو الإرادة!",
+            welcome_extra: "لدينا ما تحتاجه.",
+            register_large_btn: "ابدأ الاستثمار الآن!",
+            subnav_fii: "صناديق عقارية",
+            subnav_crypto: "عملات مشفرة",
+            subnav_stocks: "أسهم",
+            subnav_foreign: "خارجي",
+            filter_placeholder_type: "النوع (مثال: عقاري، ورقي)",
+            filter_placeholder_dy: "الحد الأدنى للعائد (%)",
+            filter_button: "بحث",
+            loading_data: "جاري تحميل البيانات...",
+            loading_crypto: "جاري تحميل بيانات العملات المشفرة...",
+            loading_stocks: "جاري تحميل بيانات الأسهم...",
+            loading_foreign: "جاري تحميل بيانات الأسهم الخارجية...",
+            no_funds_found: "لم يتم العثور على صناديق.",
+            no_crypto_found: "لم يتم العثور على عملات مشفرة.",
+            no_stocks_found: "لم يتم العثور على أسهم.",
+            no_foreign_found: "لم يتم العثور على أسهم خارجية.",
+            card_type: "النوع",
+            card_sector: "القطاع",
+            card_price: "السعر (ريال برازيلي)",
+            card_price_usd: "السعر (دولار أمريكي)",
+            card_name: "الاسم",
+            card_company: "الشركة",
+            card_val_15d: "عائد 15 يومًا",
+            card_val_30d: "عائد 30 يومًا",
+            card_buy_fee: "رسوم الشراء",
+            sim_fii_title: "محاكاة الاستثمار",
+            sim_label_initial_fii: "المبلغ المراد استثماره (ريال برازيلي):",
+            sim_label_monthly_fii: "المساهمة الشهرية (ريال برازيلي):",
+            sim_button_fii: "محاكاة",
+            sim_details_fii_label: "صندوق عقاري", // Label FII no resultado
+            sim_details_total_fii: "الإجمالي بعد 12 شهرًا",
+            sim_chart_label_fii: "توقعات الاستثمار",
+            sim_chart_start: "البداية",
+            month: "شهر",
+            months: "أشهر",
+            foreign_explanation: "الاستثمار في الخارج يسمح لك بتنويع محفظتك بعملات أخرى والوصول إلى الشركات العالمية الكبرى. عادة ما يتم ذلك من خلال وسطاء دوليين أو BDRs (إيصالات الإيداع البرازيلية) المتداولة في البورصة البرازيلية. كن على علم بأنه قد يتم تطبيق أسعار صرف العملات ورسوم تشغيلية أخرى.",
+            sim_main_title: "محاكيات الاستثمار",
+            sim_subnav_diversified: "محفظة متنوعة",
+            sim_subnav_fixed: "حاسبة الدخل الثابت",
+            sim_label_salary: "الراتب الشهري (ريال برازيلي):",
+            sim_placeholder_salary: "مثال: 5000",
+            sim_label_fixed_expenses: "النفقات الشهرية الثابتة (ريال برازيلي):",
+            sim_placeholder_fixed_expenses: "إيجار، فواتير...",
+            sim_label_variable_expenses: "متوسط النفقات المتغيرة (ريال برازيلي):",
+            sim_placeholder_variable_expenses: "ترفيه، تناول طعام بالخارج...",
+            sim_label_initial_investment: "المبلغ الأولي للاستثمار (ريال برازيلي):",
+            sim_placeholder_initial_investment: "اختياري",
+            sim_label_monthly_investment: "المبلغ الشهري للاستثمار (ريال برازيلي):",
+            sim_placeholder_monthly_investment: "كم يمكنك المساهمة؟",
+            sim_label_risk_profile: "ملف المخاطر الخاص بك:",
+            sim_label_objective: "الهدف الرئيسي:",
+            sim_label_term: "مدة الاستثمار:",
+            select_option: "اختر...",
+            profile_conservative: "متحفظ",
+            profile_moderate: "معتدل",
+            profile_high_risk: "عالي المخاطر",
+            objective_emergency: "صندوق الطوارئ",
+            objective_property: "شراء عقار",
+            objective_retirement: "التقاعد",
+            objective_other: "آخر",
+            term_short: "مدى قصير (حتى سنتين)",
+            term_medium: "مدى متوسط (2-5 سنوات)",
+            term_long: "مدى طويل (أكثر من 5 سنوات)",
+            generate_simulation: "إنشاء محاكاة",
+            sim_result_title: "نتيجة المحاكاة المخصصة",
+            sim_result_profile: "الملف المحدد",
+            sim_result_intro: "بناءً على إجاباتك، نقترح التخصيص التالي لاستثماراتك الشهرية البالغة",
+            sim_result_allocation_title: "التخصيص المقترح:",
+            sim_result_rec_title: "أفضل الخيارات لكل فئة:",
+            sim_result_rec_fixed: "الدخل الثابت:",
+            sim_result_rec_fii: "الصناديق العقارية:",
+            sim_result_rec_stocks: "الأسهم:",
+            sim_result_rec_crypto: "العملات المشفرة:",
+            sim_result_proj_title: "توقعات تفصيلية لمدة 12 شهرًا:",
+            sim_result_proj_intro: "مع الأخذ في الاعتبار استثمارًا أوليًا بقيمة {initial} ريال برازيلي ومساهمات شهرية بقيمة {monthly} ريال برازيلي، بناءً على معدلات عائد *افتراضية*:",
+            sim_result_table_month: "الشهر",
+            sim_result_table_value: "القيمة المتوقعة",
+            sim_result_final_title: "القيمة النهائية المتوقعة بعد 12 شهرًا:",
+            sim_result_disclaimer: "تذكر: هذه محاكاة مبسطة. الأداء السابق لا يضمن النتائج المستقبلية. استشر متخصصًا قبل الاستثمار.",
+            fixed_label_initial: "الاستثمار الأولي (ر.ب):",
+            fixed_label_monthly: "الاستثمار الشهري (ر.ب):",
+            fixed_label_term_years: "المدة (سنوات):",
+            fixed_label_yield: "العائد السنوي (%):",
+            fixed_label_indexer: "المؤشر:",
+            indexer_pre: "ثابت مسبقًا",
+            indexer_pos: "متغير لاحقًا (CDI)",
+            indexer_ipca: "IPCA +",
+            calculate: "حساب",
+            fixed_result_title: "نتيجة محاكاة الدخل الثابت",
+            fixed_result_initial: "القيمة الأولية",
+            fixed_result_monthly: "المساهمات الشهرية",
+            fixed_result_term: "المدة",
+            fixed_result_years: "سنوات",
+            fixed_result_months: "أشهر",
+            fixed_result_rate: "المعدل السنوي",
+            fixed_result_total_invested: "إجمالي المبلغ المستثمر",
+            fixed_result_total_interest: "إجمالي الفائدة",
+            fixed_result_final_gross: "القيمة النهائية الإجمالية",
+            fixed_result_tax_disclaimer: "(محاكاة بدون ضرائب. راجع قواعد الضرائب الخاصة باستثمارك.)",
+            alert_invalid_input: "يجب أن تكون المدة والعائد أكبر من صفر.",
+            alert_fill_all: "يرجى ملء جميع حقول الاستبيان.",
+            alert_monthly_investment: "يجب أن يكون المبلغ الشهري للاستثمار أكبر من صفر.",
+            form_nickname: "اسم المستخدم",
+            form_email: "البريد الإلكتروني",
+            form_password: "كلمة المرور",
+            form_confirm_password: "تأكيد كلمة المرور",
+            alert_password_mismatch: "كلمات المرور غير متطابقة!",
+            form_registering: "جاري التسجيل...",
+            form_registered: "تم التسجيل!",
+            chart_pie_fixed: "الدخل الثابت",
+            chart_pie_fii: "الصناديق العقارية",
+            chart_pie_stocks: "الأسهم",
+            chart_pie_crypto: "العملات المشفرة",
+        }
+    };
+
+    const newsData = { 
+        pt: [
+            { title: "Ibovespa fecha em alta com otimismo fiscal", subtitle: "Mercado reage positivamente às novas propostas do governo para controle de gastos." },
+            { title: "Setor de Varejo: Ações sobem com dados de inflação", subtitle: "Índices de preços ao consumidor vêm abaixo do esperado, animando investidores." },
+            { title: "FIIs de Logística: Oportunidade com crescimento do e-commerce", subtitle: "A alta demanda por galpões impulsiona o setor e atrai novos investimentos." },
+            { title: "Juros Futuros: O que esperar da próxima reunião do COPOM?", subtitle: "Especialistas analisam os possíveis cenários para a taxa Selic nos próximos meses." },
+            { title: "Dólar opera em queda e se aproxima de R$5,00", subtitle: "Fluxo positivo de capital estrangeiro e cenário externo favorável pressionam a moeda." },
+            { title: "Investimento no Exterior: Vantagens da diversificação de carteira", subtitle: "Proteger o patrimônio e buscar novas rentabilidades são os principais atrativos." },
+            { title: "Tecnologia: Empresas de IA lideram ganhos na Nasdaq", subtitle: "Avanços em inteligência artificial geram forte onda de valorização no setor." },
+            { title: "Commodities: Petróleo sobe com dados de estoque nos EUA", subtitle: "Redução inesperada nos estoques americanos impulsiona os preços do barril." },
+            { title: "Agro é destaque na bolsa com safra recorde", subtitle: "Perspectivas de uma colheita histórica de grãos animam o mercado de ações." },
+            { title: "Renda Fixa ainda é atrativa com juros altos?", subtitle: "Analistas debatem sobre as melhores opções para o investidor conservador." },
+            { title: "Criptomoedas: Bitcoin enfrenta volatilidade após falas do FED", subtitle: "O mercado de ativos digitais reage com cautela às sinalizações da autoridade monetária." },
+            { title: "IPO à vista: Conheça a empresa que planeja abrir capital", subtitle: "Startup do setor de saúde busca recursos na bolsa para expandir suas operações." }
+        ],
+        en: [
+            { title: "Ibovespa closes higher on fiscal optimism", subtitle: "Market reacts positively to new government proposals for spending control." },
+            { title: "Retail Sector: Stocks rise on inflation data", subtitle: "Consumer price indexes come in below expectations, encouraging investors." },
+            { title: "Logistics REITs: Opportunity with e-commerce growth", subtitle: "High demand for warehouses boosts the sector and attracts new investments." },
+            { title: "Future Interest Rates: What to expect from the next COPOM meeting?", subtitle: "Experts analyze possible scenarios for the Selic rate in the coming months." },
+            { title: "Dollar trades lower, approaching R$5.00", subtitle: "Positive foreign capital flow and a favorable external scenario pressure the currency." },
+            { title: "Investing Abroad: Advantages of portfolio diversification", subtitle: "Protecting assets and seeking new returns are the main attractions." },
+            { title: "Technology: AI companies lead gains on Nasdaq", subtitle: "Advances in artificial intelligence generate a strong wave of appreciation in the sector." },
+            { title: "Commodities: Oil rises on US inventory data", subtitle: "An unexpected reduction in US stocks boosts barrel prices." },
+            { title: "Agribusiness shines on the stock exchange with a record harvest", subtitle: "Prospects of a historic grain harvest excite the stock market." },
+            { title: "Is Fixed Income still attractive with high interest rates?", subtitle: "Analysts debate the best options for the conservative investor." },
+            { title: "Cryptocurrencies: Bitcoin faces volatility after FED statements", subtitle: "The digital asset market reacts cautiously to signals from the monetary authority." },
+            { title: "IPO in sight: Get to know the company planning to go public", subtitle: "Healthcare startup seeks funds on the stock exchange to expand its operations." }
+        ],
+        ar: [
+            { title: "إغلاق إيبوفسبا على ارتفاع وسط تفاؤل مالي", subtitle: "السوق يتفاعل بشكل إيجابي مع مقترحات الحكومة الجديدة للسيطرة على الإنفاق." },
+            { title: "قطاع التجزئة: ارتفاع الأسهم بفضل بيانات التضخم", subtitle: "مؤشرات أسعار المستهلكين تأتي أقل من المتوقع، مما يشجع المستثمرين." },
+            { title: "صناديق الاستثمار العقاري اللوجستية: فرصة مع نمو التجارة الإلكترونية", subtitle: "الطلب المرتفع على المستودعات يعزز القطاع ويجذب استثمارات جديدة." },
+            { title: "أسعار الفائدة المستقبلية: ماذا نتوقع من اجتماع COPOM القادم؟", subtitle: "يحلل الخبراء السيناريوهات المحتملة لسعر الفائدة Selic في الأشهر المقبلة." },
+            { title: "انخفاض الدولار واقترابه من 5.00 ريال برازيلي", subtitle: "التدفق الإيجابي لرأس المال الأجنبي والسيناريو الخارجي المواتي يضغطان على العملة." },
+            { title: "الاستثمار في الخارج: مزايا تنويع المحفظة", subtitle: "حماية الأصول والبحث عن عوائد جديدة هما عامل الجذب الرئيسيان." },
+            { title: "التكنولوجيا: شركات الذكاء الاصطناعي تقود المكاسب في ناسداك", subtitle: "التقدم في الذكاء الاصطناعي يولد موجة قوية من التقدير في القطاع." },
+            { title: "السلع: ارتفاع النفط بفضل بيانات المخزون الأمريكي", subtitle: "الانخفاض غير المتوقع في المخزونات الأمريكية يعزز أسعار البرميل." },
+            { title: "الأعمال الزراعية تتألق في البورصة مع محصول قياسي", subtitle: "آفاق حصاد تاريخي للحبوب تثير حماس سوق الأسهم." },
+            { title: "هل لا يزال الدخل الثابت جذابًا مع أسعار الفائدة المرتفعة؟", subtitle: "يناقش المحللون أفضل الخيارات للمستثمر المحافظ." },
+            { title: "العملات المشفرة: بيتكوين يواجه تقلبات بعد تصريحات بنك الاحتياطي الفيدرالي", subtitle: "سوق الأصول الرقمية يتفاعل بحذر مع إشارات السلطة النقدية." },
+            { title: "طرح عام أولي في الأفق: تعرف على الشركة التي تخطط للاكتتاب العام", subtitle: "شركة ناشئة في قطاع الرعاية الصحية تسعى للحصول على أموال من البورصة لتوسيع عملياتها." }
+        ]
+    }; 
+    
+    // --- LÓGICA DE TRADUÇÃO ---
+    function setLanguage(lang) {
+        currentLanguage = lang;
+        document.documentElement.lang = lang;
+
+        // Atualiza todos os elementos com data-key
+        document.querySelectorAll('[data-key]').forEach(element => {
+            const key = element.getAttribute('data-key');
+            let text = translations[lang] && translations[lang][key] ? translations[lang][key] : element.textContent; // Fallback para texto original
+            
+             // Tratamento especial para placeholders
+            if(element.placeholder && translations[lang] && translations[lang][key]) {
+                 element.placeholder = text;
+            } 
+             // Tratamento especial para o valor do botão de submit do registro
+             else if (element.type === 'submit' && element.closest('#register-form') && translations[lang] && translations[lang].register) {
+                  element.textContent = translations[lang].register;
+             }
+             // Tratamento para textos interpolados (como na projeção)
+             else if (translations[lang] && translations[lang][key] && text.includes('{initial}') && text.includes('{monthly}')) {
+                 const initialVal = parseFloat(document.getElementById('sim-investimento-inicial')?.value) || 0;
+                 const monthlyVal = parseFloat(document.getElementById('sim-investimento-mensal')?.value) || 0;
+                 text = text.replace('{initial}', initialVal.toFixed(2)).replace('{monthly}', monthlyVal.toFixed(2));
+                 element.textContent = text;
+            }
+            // Para todos os outros elementos
+            else if (translations[lang] && translations[lang][key]) {
+                 element.textContent = text;
+            }
+        });
+
+        // Atualiza as notícias
+        gerarNoticias(lang);
+
+        // Atualiza a bandeira
+        const flagPaths = {
+            pt: 'imgs/brasil.jpg',
+            en: 'imgs/eua.jpg',
+            ar: 'imgs/arabia_saudita.jpg'
+        };
+        const currentFlagImg = document.getElementById('current-lang-flag');
+        if (currentFlagImg) {
+            currentFlagImg.src = flagPaths[lang];
+            currentFlagImg.alt = lang.toUpperCase();
+            // Adiciona fallback para a bandeira
+             currentFlagImg.onerror = function() { this.src=`https://placehold.co/32x32/cccccc/333333?text=${lang.toUpperCase()}`; }
+
+        }
+
+
+        // Gerencia a direção do texto
+        if (lang === 'ar') {
+            document.body.setAttribute('dir', 'rtl');
+        } else {
+            document.body.setAttribute('dir', 'ltr');
+        }
+        
+        // Atualiza a UI se necessário (ex: recarregar dados dos cards no idioma certo)
+        const activeTab = document.querySelector('.tab-content.active');
+        if (activeTab && activeTab.id === 'ativos') {
+             const activeSubTabLink = document.querySelector('#ativos .sub-nav-link.active');
+             if (activeSubTabLink) {
+                const subTabId = activeSubTabLink.dataset.subTab;
+                // Força recarregamento dos dados na sub-aba ativa
+                if (subTabId === 'fii') buscarDados();
+                else if (subTabId === 'cripto') buscarDadosCripto();
+                else if (subTabId === 'acoes') buscarDadosAcoes();
+                else if (subTabId === 'exterior') buscarDadosExterior();
+             }
+        }
+        // Atualiza labels do gráfico FII se ele estiver visível
+        if (fiiSelecionado && document.getElementById('simulacao').style.display === 'block') {
+             atualizarSimulacaoFII();
+        }
+         // Atualiza resultado da simulação personalizada se estiver visível
+        if (document.getElementById('resultado-simulacao').style.display === 'block') {
+             const simForm = document.getElementById('simulacao-form');
+             if(simForm) simForm.requestSubmit(); // Reenvia o form para atualizar o resultado no idioma certo
+        }
+         // Atualiza resultado da calculadora CDI se estiver visível
+        if (document.getElementById('resultado-cdi').style.display === 'block') {
+             const cdiForm = document.getElementById('cdi-form');
+             if(cdiForm) cdiForm.requestSubmit(); // Reenvia o form para atualizar o resultado
+        }
+
+
+        // Fecha o dropdown
+        const langDropdown = document.querySelector('.lang-dropdown');
+        if(langDropdown) langDropdown.classList.remove('show');
+    }
+
+    // --- LÓGICA DE NAVEGAÇÃO E ABAS ---
+    function showTab(tabId) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active'));
+
+      const links = document.querySelectorAll('.nav-link');
+      links.forEach(link => link.classList.remove('active'));
+
+      const tabElement = document.getElementById(tabId);
+      if (tabElement) {
+          tabElement.classList.add('active');
+      } else if (tabId === 'simulacao') { 
+          document.getElementById('simulacao-tab').classList.add('active');
+      }
+      
+      const activeLink = document.querySelector(`.nav-link[data-tab='${tabId}']`);
+      if(activeLink) activeLink.classList.add('active');
+
+      // Carrega dados da sub-aba ativa ao entrar em "Ativos" ou "Simulação"
+      if (tabId === 'ativos') {
+         const activeSubTabLink = document.querySelector('#ativos .sub-nav-link.active');
+         const activeSubTabId = activeSubTabLink ? activeSubTabLink.dataset.subTab : 'fii'; 
+         loadSubTabData(activeSubTabId); 
+      } else if (tabId === 'simulacao-tab') {
+          const activeSimSubTabLink = document.querySelector('#simulacao-tab .sub-nav-link.active');
+          if (!activeSimSubTabLink) {
+              const firstSimSubTabLink = document.querySelector('#simulacao-tab .sub-nav-link');
+              if(firstSimSubTabLink) {
+                  const firstSimSubTabId = firstSimSubTabLink.dataset.simSubTab;
+                  showSimulacaoSubTab(firstSimSubTabId, firstSimSubTabLink);
+              }
+          }
+      }
+    }
+
+    // Função auxiliar para carregar dados das sub-abas de Ativos
+    function loadSubTabData(subTabId) {
+         if (subTabId === 'fii' && !document.querySelector('#resultado .grid')) {
+             buscarDados();
+         } else if (subTabId === 'cripto' && !document.querySelector('#resultado-cripto .grid')) {
+             buscarDadosCripto();
+         } else if (subTabId === 'acoes' && !document.querySelector('#resultado-acoes .grid')) {
+             buscarDadosAcoes();
+         } else if (subTabId === 'exterior' && !document.querySelector('#resultado-exterior .grid')) { 
+             buscarDadosExterior();
+         }
+    }
+
+    // --- LÓGICA DA SUB-NAVEGAÇÃO (ATIVOS) ---
+    function showSubTab(subTabId, element) {
+      document.querySelectorAll('#ativos .sub-tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.querySelectorAll('#ativos .sub-nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+
+      document.getElementById(subTabId).classList.add('active');
+      element.classList.add('active');
+
+      loadSubTabData(subTabId); 
+    }
+    
+    // --- LÓGICA DA SUB-NAVEGAÇÃO (SIMULAÇÃO) ---
+    function showSimulacaoSubTab(subTabId, element) {
+        document.querySelectorAll('#simulacao-tab .sub-tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.querySelectorAll('#simulacao-tab .sub-nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+
+        document.getElementById(subTabId).classList.add('active');
+        element.classList.add('active');
+    }
+
+
+    // --- LÓGICA DA ABA FUNDOS (FIIs) ---
+    function buscarDados() {
+      const tipo = document.getElementById('tipo').value;
+      const minDY = document.getElementById('minDY').value;
+      const currentLang = currentLanguage;
+
+      const dadosSimulados = [
+          { "codigo": "MXRF11", "tipo": "Papel", "setor": "Híbrido", "dy": 12.5, "preco": 10.50 },
+          { "codigo": "HGLG11", "tipo": "Tijolo", "setor": "Logística", "dy": 9.8, "preco": 165.20 },
+          { "codigo": "KNCR11", "tipo": "Papel", "setor": "Recebíveis", "dy": 11.2, "preco": 102.30 },
+          { "codigo": "BCFF11", "tipo": "Fundo de Fundos", "setor": "Títulos e Val. Mob.", "dy": 8.5, "preco": 68.75 },
+          { "codigo": "XPML11", "tipo": "Tijolo", "setor": "Shoppings", "dy": 8.9, "preco": 110.40 },
+          { "codigo": "VILG11", "tipo": "Tijolo", "setor": "Logística", "dy": 7.5, "preco": 101.80 }, 
+          { "codigo": "IRDM11", "tipo": "Papel", "setor": "Recebíveis", "dy": 13.1, "preco": 85.50 }  
+      ];
+
+      let dados = dadosSimulados.filter(fii => {
+        const tipoMatch = tipo ? fii.tipo.toLowerCase().includes(tipo.toLowerCase()) : true;
+        const dyMatch = minDY ? fii.dy >= parseFloat(minDY) : true;
+        return tipoMatch && dyMatch;
+      });
+
+      const container = document.getElementById('resultado');
+      container.innerHTML = '';
+
+      if (dados.length === 0) {
+        container.innerHTML = `<p>${translations[currentLang].no_funds_found}</p>`;
+        return;
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+
+      dados.forEach(fii => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const precoFormatado = fii.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        
+        card.innerHTML = `
+          <h2>${fii.codigo}</h2>
+          <p><strong>${translations[currentLang].card_type}:</strong> ${fii.tipo}</p>
+          <p><strong>${translations[currentLang].card_sector}:</strong> ${fii.setor}</p>
+          <p><strong>DY:</strong> ${fii.dy}%</p>
+          <p><strong>${translations[currentLang].card_price}:</strong> ${precoFormatado}</p>
+        `;
+        card.addEventListener('click', () => mostrarSimulacaoFII(fii)); 
+        grid.appendChild(card);
+      });
+
+      container.appendChild(grid);
+    }
+    
+    // --- LÓGICA DA ABA CRIPTO ---
+    function buscarDadosCripto() {
+        const currentLang = currentLanguage;
+        const dadosSimuladosCripto = [
+            { "codigo": "BTC", "nome": "Bitcoin", "valorizacao_15d": 5.8, "preco": 320500.50 },
+            { "codigo": "ETH", "nome": "Ethereum", "valorizacao_15d": -2.1, "preco": 18520.20 },
+            { "codigo": "SOL", "nome": "Solana", "valorizacao_15d": 12.3, "preco": 650.75 },
+            { "codigo": "DOGE", "nome": "Dogecoin", "valorizacao_15d": -8.5, "preco": 0.88 },
+            { "codigo": "ADA", "nome": "Cardano", "valorizacao_15d": 1.5, "preco": 2.45 },
+            { "codigo": "XRP", "nome": "Ripple", "valorizacao_15d": 3.2, "preco": 2.90 },    
+            { "codigo": "DOT", "nome": "Polkadot", "valorizacao_15d": -1.0, "preco": 35.15 }, 
+            { "codigo": "LTC", "nome": "Litecoin", "valorizacao_15d": 0.5, "preco": 480.60 }  
+        ];
+        
+        const container = document.getElementById('resultado-cripto');
+        container.innerHTML = ''; 
+
+        const grid = document.createElement('div');
+        grid.className = 'grid'; 
+
+        dadosSimuladosCripto.forEach(cripto => {
+            const card = document.createElement('div');
+            card.className = 'card'; 
+
+            const valorizacaoClass = cripto.valorizacao_15d >= 0 ? 'valor-positiva' : 'valor-negativa';
+            const valorizacaoSinal = cripto.valorizacao_15d >= 0 ? '+' : '';
+            const precoFormatado = cripto.preco.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            card.innerHTML = `
+              <h2>${cripto.codigo}</h2>
+              <p><strong>${translations[currentLang].card_name}:</strong> ${cripto.nome}</p> 
+              <p><strong>${translations[currentLang].card_val_15d}:</strong> <span class="${valorizacaoClass}">${valorizacaoSinal}${cripto.valorizacao_15d.toFixed(1)}%</span></p>
+              <p><strong>${translations[currentLang].card_price}:</strong> ${precoFormatado}</p>
+            `;
+            grid.appendChild(card);
+        });
+
+        container.appendChild(grid);
+    }
+
+    // --- LÓGICA DA ABA AÇÕES ---
+    function buscarDadosAcoes() {
+        const currentLang = currentLanguage;
+        const dadosSimuladosAcoes = [
+            { "codigo": "MSFT", "nome": "Microsoft Corp.", "setor": "Tecnologia", "valorizacao_30d": 3.5, "preco": 1850.75 },
+            { "codigo": "MGLU3", "nome": "Magazine Luiza", "setor": "Varejo", "valorizacao_30d": -7.2, "preco": 2.15 },
+            { "codigo": "PETR4", "nome": "Petrobras", "setor": "Petróleo e Gás", "valorizacao_30d": 8.1, "preco": 38.50 },
+            { "codigo": "VALE3", "nome": "Vale S.A.", "setor": "Mineração", "valorizacao_30d": 1.9, "preco": 65.20 },
+            { "codigo": "ITUB4", "nome": "Itaú Unibanco", "setor": "Financeiro", "valorizacao_30d": -0.5, "preco": 32.80 }
+        ];
+
+        const container = document.getElementById('resultado-acoes');
+        container.innerHTML = ''; 
+
+        const grid = document.createElement('div');
+        grid.className = 'grid'; 
+
+        dadosSimuladosAcoes.forEach(acao => {
+            const card = document.createElement('div');
+            card.className = 'card'; 
+
+            const valorizacaoClass = acao.valorizacao_30d >= 0 ? 'valor-positiva' : 'valor-negativa';
+            const valorizacaoSinal = acao.valorizacao_30d >= 0 ? '+' : '';
+            const precoFormatado = acao.preco.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            card.innerHTML = `
+              <h2>${acao.codigo}</h2>
+              <p><strong>${translations[currentLang].card_company}:</strong> ${acao.nome}</p>
+              <p><strong>${translations[currentLang].card_sector}:</strong> ${acao.setor}</p>
+              <p><strong>${translations[currentLang].card_val_30d}:</strong> <span class="${valorizacaoClass}">${valorizacaoSinal}${acao.valorizacao_30d.toFixed(1)}%</span></p>
+              <p><strong>${translations[currentLang].card_price}:</strong> ${precoFormatado}</p>
+            `;
+            grid.appendChild(card);
+        });
+
+        container.appendChild(grid);
+    }
+
+    // --- LÓGICA DA ABA EXTERIOR ---
+    function buscarDadosExterior() {
+        const currentLang = currentLanguage;
+        const taxaCambio = 5.50; 
+        const dadosSimuladosExterior = [
+            { "codigo": "AAPL", "nome": "Apple Inc.", "setor": "Tecnologia", "valorizacao_30d": 4.2, "preco_usd": 175.50, "taxa_perc": 0.5 },
+            { "codigo": "GOOGL", "nome": "Alphabet Inc. (Google)", "setor": "Tecnologia", "valorizacao_30d": 2.8, "preco_usd": 140.20, "taxa_perc": 0.5 },
+            { "codigo": "AMZN", "nome": "Amazon.com, Inc.", "setor": "Varejo/Tecnologia", "valorizacao_30d": -1.5, "preco_usd": 135.80, "taxa_perc": 0.5 },
+            { "codigo": "TSLA", "nome": "Tesla, Inc.", "setor": "Automotivo/Energia", "valorizacao_30d": 15.1, "preco_usd": 250.00, "taxa_perc": 0.7 },
+            { "codigo": "NVDA", "nome": "NVIDIA Corporation", "setor": "Tecnologia", "valorizacao_30d": 9.5, "preco_usd": 480.30, "taxa_perc": 0.7 },
+            { "codigo": "META", "nome": "Meta Platforms, Inc.", "setor": "Tecnologia", "valorizacao_30d": -3.0, "preco_usd": 310.60, "taxa_perc": 0.5 },
+            { "codigo": "JNJ", "nome": "Johnson & Johnson", "setor": "Saúde", "valorizacao_30d": 0.8, "preco_usd": 165.90, "taxa_perc": 0.4 },
+            { "codigo": "V", "nome": "Visa Inc.", "setor": "Financeiro", "valorizacao_30d": 2.1, "preco_usd": 240.10, "taxa_perc": 0.4 }
+        ];
+
+        const container = document.getElementById('resultado-exterior');
+        container.innerHTML = ''; 
+
+        const grid = document.createElement('div');
+        grid.className = 'grid'; 
+
+        dadosSimuladosExterior.forEach(acao => {
+            const card = document.createElement('div');
+            card.className = 'card'; 
+
+            const valorizacaoClass = acao.valorizacao_30d >= 0 ? 'valor-positiva' : 'valor-negativa';
+            const valorizacaoSinal = acao.valorizacao_30d >= 0 ? '+' : '';
+            const precoBRL = acao.preco_usd * taxaCambio;
+            
+            const precoFormatadoBRL = precoBRL.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'});
+            const precoFormatadoUSD = acao.preco_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+            const taxaFormatada = `${acao.taxa_perc.toFixed(1)}%`; 
+
+            card.innerHTML = `
+              <h2>${acao.codigo}</h2>
+              <p><strong>${translations[currentLang].card_company}:</strong> ${acao.nome}</p>
+              <p><strong>${translations[currentLang].card_sector}:</strong> ${acao.setor}</p>
+              <p><strong>${translations[currentLang].card_val_30d}:</strong> <span class="${valorizacaoClass}">${valorizacaoSinal}${acao.valorizacao_30d.toFixed(1)}%</span></p>
+              <p><strong>${translations[currentLang].card_price}:</strong> ${precoFormatadoBRL}</p>
+              <p><strong>${translations[currentLang].card_price_usd}:</strong> ${precoFormatadoUSD}</p>
+              <p><strong class="taxa">${translations[currentLang].card_buy_fee}:</strong> <span class="taxa">${taxaFormatada}</span></p> 
+
+`;
+            grid.appendChild(card);
+        });
+
+        container.appendChild(grid);
+    }
+
+
+    // --- LÓGICA DA SIMULAÇÃO (FUNDOS) ---
+    function mostrarSimulacaoFII(fii) { 
+      fiiSelecionado = fii; 
+      const secaoSimulacao = document.getElementById("simulacao");
+      secaoSimulacao.style.display = "block";
+      atualizarSimulacaoFII(); 
+      secaoSimulacao.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function atualizarSimulacaoFII() {
+      if (!fiiSelecionado) return; 
+      const currentLang = currentLanguage;
+
+      const investimentoInicial = parseFloat(document.getElementById("valorInvestimento").value);
+      const aporteMensal = parseFloat(document.getElementById("aporteMensal").value);
+      const dy = fiiSelecionado.dy / 100;
+
+      let saldo = investimentoInicial;
+      const meses = 12;
+      const valores = [saldo];
+      const labels = [translations[currentLang].sim_chart_start];
+
+      for (let i = 1; i <= meses; i++) {
+        saldo = saldo * (1 + dy / 12) + aporteMensal;
+        valores.push(saldo);
+        labels.push(`${i} ${i > 1 ? translations[currentLang].months : translations[currentLang].month}`);
+      }
+      
+      const totalFormatado = saldo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+      document.getElementById("detalhes").innerHTML = `
+        <p><strong>${translations[currentLang].sim_details_fii_label}:</strong> ${fiiSelecionado.codigo}</p>
+        <p><strong>${translations[currentLang].sim_details_total_fii}:</strong> ${totalFormatado}</p>
+      `;
+
+      const ctx = document.getElementById("grafico").getContext("2d");
+      if (chartInstance) chartInstance.destroy(); 
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: translations[currentLang].sim_chart_label_fii,
+            data: valores,
+            borderColor: "#d4af37",
+            backgroundColor: "rgba(212, 175, 55, 0.2)",
+            borderWidth: 2,
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: '#e0e0e0' }}},
+          scales: { 
+              y: { 
+                  beginAtZero: false,
+                  ticks: { color: '#b0b0b0' },
+                  grid: { color: 'rgba(255, 255, 255, 0.1)' }
+              },
+              x: {
+                  ticks: { color: '#b0b0b0' },
+                  grid: { color: 'rgba(255, 255, 255, 0.1)' }
+              }
+          }
+        }
+      });
+    }
+
+    // --- LÓGICA DA ABA SIMULAÇÃO PERSONALIZADA ---
+    function gerarSimulacaoPersonalizada(event) {
+        event.preventDefault(); 
+        const currentLang = currentLanguage;
+
+        const salario = parseFloat(document.getElementById('sim-salario').value) || 0;
+        const gastosFixos = parseFloat(document.getElementById('sim-gastos-fixos').value) || 0;
+        const gastosVariaveis = parseFloat(document.getElementById('sim-gastos-variaveis').value) || 0;
+        const investimentoInicial = parseFloat(document.getElementById('sim-investimento-inicial').value) || 0;
+        const aporteMensal = parseFloat(document.getElementById('sim-investimento-mensal').value) || 0;
+        const perfil = document.getElementById('sim-perfil').value;
+        const objetivo = document.getElementById('sim-objetivo').value;
+        const prazo = document.getElementById('sim-prazo').value;
+
+        if (aporteMensal <= 0) {
+            alert(translations[currentLang].alert_monthly_investment);
+            return;
+        }
+        if (!perfil || !objetivo || !prazo) {
+            alert(translations[currentLang].alert_fill_all);
+            return;
+        }
+
+        let alocacao = { cdi: 0, fii: 0, acoes: 0, cripto: 0 };
+        let perfilTexto = ""; 
+        let recomendacaoRF = "";
+        let recomendacaoFII = "";
+        let recomendacaoAcoes = "";
+        let recomendacaoCripto = "";
+
+        // Textos das recomendações (seriam idealmente parte do objeto translations)
+        const recText = {
+             pt: {
+                 rf_con: "Tesouro Selic, CDBs 100% CDI de bancos grandes.",
+                 fii_con: "FIIs de Tijolo bem localizados (HGLG11, XPML11).",
+                 acoes_con: "Ações de empresas sólidas pagadoras de dividendos (ITUB4, EGIE3).",
+                 rf_mod: "Tesouro IPCA+, CDBs acima de 100% CDI, LCIs/LCAs.",
+                 fii_mod: "FIIs de Papel diversificados (KNCR11, IRDM11) e FIIs de Tijolo.",
+                 acoes_mod: "Ações de crescimento e dividendos (WEGE3, VALE3).",
+                 cripto_mod: "Bitcoin (BTC) e Ethereum (ETH).",
+                 rf_high: "Debêntures incentivadas, CDBs de bancos menores (com atenção ao FGC).",
+                 fii_high: "FIIs de Desenvolvimento, FIIs de Papel High Yield.",
+                 acoes_high: "Small Caps, Ações de tecnologia, BDRs de empresas estrangeiras.",
+                 cripto_high: "Bitcoin (BTC), Ethereum (ETH) e Altcoins com bons projetos.",
+             },
+             en: { /* ... traduções em inglês ... */ 
+                 rf_con: "Treasury Selic, 100% CDI CDBs from large banks.",
+                 fii_con: "Well-located Brick REITs (HGLG11, XPML11).",
+                 acoes_con: "Stocks of solid dividend-paying companies (ITUB4, EGIE3).",
+                 rf_mod: "Treasury IPCA+, CDBs above 100% CDI, LCIs/LCAs.",
+                 fii_mod: "Diversified Paper REITs (KNCR11, IRDM11) and Brick REITs.",
+                 acoes_mod: "Growth and dividend stocks (WEGE3, VALE3).",
+                 cripto_mod: "Bitcoin (BTC) and Ethereum (ETH).",
+                 rf_high: "Incentivized debentures, CDBs from smaller banks (pay attention to FGC).",
+                 fii_high: "Development REITs, High Yield Paper REITs.",
+                 acoes_high: "Small Caps, Tech stocks, BDRs of foreign companies.",
+                 cripto_high: "Bitcoin (BTC), Ethereum (ETH) and Altcoins with solid projects.",
+             },
+             ar: { /* ... traduções em árabe ... */ 
+                 rf_con: "الخزانة Selic ، شهادات الإيداع البنكية 100٪ CDI من البنوك الكبرى.",
+                 fii_con: "صناديق الاستثمار العقاري المتداولة (REITs) ذات المواقع الجيدة (HGLG11 ، XPML11).",
+                 acoes_con: "أسهم الشركات القوية التي تدفع أرباحًا (ITUB4 ، EGIE3).",
+                 rf_mod: "الخزانة IPCA + ، شهادات الإيداع البنكية فوق 100٪ CDI ، LCI / LCA.",
+                 fii_mod: "صناديق الاستثمار العقاري الورقية المتنوعة (KNCR11 ، IRDM11) وصناديق الاستثمار العقاري المتداولة.",
+                 acoes_mod: "أسهم النمو والأرباح (WEGE3 ، VALE3).",
+                 cripto_mod: "بيتكوين (BTC) وإيثريوم (ETH).",
+                 rf_high: "سندات الدين المحفزة ، شهادات الإيداع البنكية من البنوك الصغيرة (مع الانتباه إلى FGC).",
+                 fii_high: "صناديق الاستثمار العقاري للتطوير ، صناديق الاستثمار العقاري الورقية ذات العائد المرتفع.",
+                 acoes_high: "الشركات الصغيرة ، أسهم التكنولوجيا ، BDRs للشركات الأجنبية.",
+                 cripto_high: "بيتكوين (BTC) وإيثريوم (ETH) والعملات البديلة ذات المشاريع القوية.",
+             }
+        };
+
+
+        if (perfil === 'conservador') {
+            alocacao = { cdi: 70, fii: 20, acoes: 10, cripto: 0 };
+            perfilTexto = translations[currentLang].profile_conservative;
+            recomendacaoRF = recText[currentLang].rf_con;
+            recomendacaoFII = recText[currentLang].fii_con;
+            recomendacaoAcoes = recText[currentLang].acoes_con;
+        } else if (perfil === 'moderado') {
+            alocacao = { cdi: 40, fii: 30, acoes: 20, cripto: 10 };
+            perfilTexto = translations[currentLang].profile_moderate;
+            recomendacaoRF = recText[currentLang].rf_mod;
+            recomendacaoFII = recText[currentLang].fii_mod;
+            recomendacaoAcoes = recText[currentLang].acoes_mod;
+            recomendacaoCripto = recText[currentLang].cripto_mod;
+        } else { // alto_risco
+            alocacao = { cdi: 10, fii: 20, acoes: 40, cripto: 30 };
+            perfilTexto = translations[currentLang].profile_high_risk; 
+            recomendacaoRF = recText[currentLang].rf_high;
+            recomendacaoFII = recText[currentLang].fii_high;
+            recomendacaoAcoes = recText[currentLang].acoes_high;
+            recomendacaoCripto = recText[currentLang].cripto_high;
+        }
+
+        const retornosMensais = { cdi: 0.008, fii: 0.01, acoes: 0.012, cripto: 0.02 }; 
+        let saldoAtual = investimentoInicial;
+        const projecao = [];
+
+        for (let mes = 1; mes <= 12; mes++) {
+            let rendimentoMes = 0;
+            rendimentoMes += (saldoAtual * (alocacao.cdi / 100)) * retornosMensais.cdi;
+            rendimentoMes += (saldoAtual * (alocacao.fii / 100)) * retornosMensais.fii;
+            rendimentoMes += (saldoAtual * (alocacao.acoes / 100)) * retornosMensais.acoes;
+            rendimentoMes += (saldoAtual * (alocacao.cripto / 100)) * retornosMensais.cripto;
+
+            saldoAtual += aporteMensal + rendimentoMes;
+            projecao.push({ mes: mes, valor: saldoAtual });
+        }
+        const valorFinal = saldoAtual;
+
+        const resultadoDiv = document.getElementById('resultado-simulacao');
+        const chartContainerHTML = resultadoDiv.querySelector('#alocacao-chart-container')?.outerHTML || '<div id="alocacao-chart-container"><canvas id="alocacao-pie-chart"></canvas></div>';
+        
+        // Formata a string de introdução da projeção
+        let projIntroText = translations[currentLang].sim_result_proj_intro || "";
+        projIntroText = projIntroText.replace('{initial}', investimentoInicial.toFixed(2)).replace('{monthly}', aporteMensal.toFixed(2));
+
+        resultadoDiv.innerHTML = `
+            <h2 data-key="sim_result_title">${translations[currentLang].sim_result_title}</h2>
+            
+            <h3 data-key="sim_result_profile">${translations[currentLang].sim_result_profile}: ${perfilTexto}</h3> 
+            <p>${translations[currentLang].sim_result_intro} <strong>${aporteMensal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong>:</p>
+            
+            ${chartContainerHTML} 
+
+            <h3 data-key="sim_result_allocation_title">${translations[currentLang].sim_result_allocation_title}</h3>
+            <ul>
+                ${alocacao.cdi > 0 ? `<li><strong>${alocacao.cdi}%</strong> <span data-key="chart_pie_fixed">${translations[currentLang].chart_pie_fixed || 'Renda Fixa'}</span></li>` : ''}
+                ${alocacao.fii > 0 ? `<li><strong>${alocacao.fii}%</strong> <span data-key="chart_pie_fii">${translations[currentLang].chart_pie_fii || 'FIIs'}</span></li>` : ''}
+                ${alocacao.acoes > 0 ? `<li><strong>${alocacao.acoes}%</strong> <span data-key="chart_pie_stocks">${translations[currentLang].chart_pie_stocks || 'Ações'}</span></li>` : ''}
+                ${alocacao.cripto > 0 ? `<li><strong>${alocacao.cripto}%</strong> <span data-key="chart_pie_crypto">${translations[currentLang].chart_pie_crypto || 'Criptomoedas'}</span></li>` : ''}
+            </ul>
+
+            <h3 data-key="sim_result_rec_title">${translations[currentLang].sim_result_rec_title}</h3>
+            ${alocacao.cdi > 0 ? `<h4 data-key="sim_result_rec_fixed">${translations[currentLang].sim_result_rec_fixed}</h4><p>${recomendacaoRF}</p>` : ''}
+            ${alocacao.fii > 0 ? `<h4 data-key="sim_result_rec_fii">${translations[currentLang].sim_result_rec_fii}</h4><p>${recomendacaoFII}</p>` : ''}
+            ${alocacao.acoes > 0 ? `<h4 data-key="sim_result_rec_stocks">${translations[currentLang].sim_result_rec_stocks}</h4><p>${recomendacaoAcoes}</p>` : ''}
+            ${alocacao.cripto > 0 ? `<h4 data-key="sim_result_rec_crypto">${translations[currentLang].sim_result_rec_crypto}</h4><p>${recomendacaoCripto}</p>` : ''}
+
+            <h3 data-key="sim_result_proj_title">${translations[currentLang].sim_result_proj_title}</h3>
+            <p>${projIntroText}</p>
+            <table id="projecao-tabela">
+                <thead>
+                    <tr>
+                        <th data-key="sim_result_table_month">${translations[currentLang].sim_result_table_month}</th>
+                        <th data-key="sim_result_table_value">${translations[currentLang].sim_result_table_value}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${projecao.map(p => `<tr><td>${p.mes}</td><td>${p.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td></tr>`).join('')}
+                </tbody>
+            </table>
+            
+            <h3 data-key="sim_result_final_title">${translations[currentLang].sim_result_final_title}</h3>
+            <p style="font-size: 1.2em; font-weight: bold; color: #d4af37; margin-top:10px;">${valorFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+            
+            <p><small><i data-key="sim_result_disclaimer">${translations[currentLang].sim_result_disclaimer}</i></small></p>
+        `;
+        resultadoDiv.style.display = 'block'; 
+        resultadoDiv.scrollIntoView({ behavior: 'smooth' }); 
+        
+        renderizarGraficoPizza(alocacao);
+    }
+
+    // Função para renderizar o gráfico de pizza
+    function renderizarGraficoPizza(alocacao) {
+        const canvasElement = document.getElementById('alocacao-pie-chart');
+        if (!canvasElement) return; 
+        const ctx = canvasElement.getContext('2d');
+        if (pieChartInstance) pieChartInstance.destroy();
+        const currentLang = currentLanguage;
+
+        const labels = [];
+        const data = [];
+        const backgroundColors = [ '#4dc9f6', '#f67019', '#f53794', '#acc236', '#ff9f40', '#ffcd56' ]; 
+        const borderColors = backgroundColors.map(color => color.replace(')', ', 0.8)').replace('rgb', 'rgba')); 
+
+        let colorIndex = 0;
+        if (alocacao.cdi > 0) { labels.push(translations[currentLang].chart_pie_fixed); data.push(alocacao.cdi); }
+        if (alocacao.fii > 0) { labels.push(translations[currentLang].chart_pie_fii); data.push(alocacao.fii); }
+        if (alocacao.acoes > 0) { labels.push(translations[currentLang].chart_pie_stocks); data.push(alocacao.acoes); }
+        if (alocacao.cripto > 0) { labels.push(translations[currentLang].chart_pie_crypto); data.push(alocacao.cripto); }
+
+        pieChartInstance = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors.slice(0, data.length), 
+                    borderColor: borderColors.slice(0, data.length),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#e0e0e0', 
+                             font: {
+                                size: 14 
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // --- LÓGICA DA CALCULADORA RENDA FIXA ---
+    function calcularRendaFixa(event) {
+        event.preventDefault(); 
+        const currentLang = currentLanguage;
+
+        const inicial = parseFloat(document.getElementById('cdi-inicial').value) || 0;
+        const mensal = parseFloat(document.getElementById('cdi-mensal').value) || 0;
+        const prazoAnos = parseInt(document.getElementById('cdi-prazo').value) || 0;
+        const taxaAnual = parseFloat(document.getElementById('cdi-rentabilidade').value) / 100 || 0;
+
+        if (prazoAnos <= 0 || taxaAnual <= 0) {
+            alert(translations[currentLang].alert_invalid_input);
+            return;
+        }
+
+        const prazoMeses = prazoAnos * 12;
+        const taxaMensal = Math.pow(1 + taxaAnual, 1/12) - 1; 
+
+        let saldo = inicial;
+        for (let i = 0; i < prazoMeses; i++) {
+            saldo = saldo * (1 + taxaMensal) + mensal;
+        }
+        
+        const totalInvestido = inicial + (mensal * prazoMeses);
+        const juros = saldo - totalInvestido;
+
+        const resultadoDiv = document.getElementById('resultado-cdi');
+        resultadoDiv.innerHTML = `
+            <h2 data-key="fixed_result_title">${translations[currentLang].fixed_result_title}</h2>
+            <p><strong>${translations[currentLang].fixed_result_initial}:</strong> ${inicial.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+            <p><strong>${translations[currentLang].fixed_result_monthly}:</strong> ${mensal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+            <p><strong>${translations[currentLang].fixed_result_term}:</strong> ${prazoAnos} ${translations[currentLang].fixed_result_years} (${prazoMeses} ${translations[currentLang].fixed_result_months})</p>
+            <p><strong>${translations[currentLang].fixed_result_rate}:</strong> ${(taxaAnual * 100).toFixed(2)}%</p>
+            <hr style="border-color: #444; margin: 15px 0;">
+            <p><strong>${translations[currentLang].fixed_result_total_invested}:</strong> ${totalInvestido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+            <p><strong>${translations[currentLang].fixed_result_total_interest}:</strong> ${juros.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+            <p style="font-size: 1.2em; font-weight: bold; color: #d4af37; margin-top: 10px;">${translations[currentLang].fixed_result_final_gross}: ${saldo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+            <p style="font-size: 0.9em; color: #888; margin-top: 15px;"><i data-key="fixed_result_tax_disclaimer">${translations[currentLang].fixed_result_tax_disclaimer}</i></p>
+        `;
+        resultadoDiv.style.display = 'block';
+        resultadoDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+
+
+    // --- LÓGICA DA ABA NOVIDADES ---
+    function gerarNoticias(lang = 'pt') {
+      const newsContainer = document.querySelector('#novidades .news-grid');
+      // Garante que newsData[lang] exista, se não, usa 'pt' como fallback
+      const noticias = (newsData && newsData[lang]) ? newsData[lang] : newsData['pt']; 
+      if (!newsContainer || !noticias) return; // Segurança
+
+      let html = '';
+      for (let i = 0; i < Math.min(12, noticias.length); i++) { // Garante que não tente acessar índice inexistente
+        const noticia = noticias[i];
+        const imageUrl = `imgs/imagem${i + 1}.jpg`; // Voltando para imagemX.jpg
+        html += `
+          <div class="news-card">
+            <img src="${imageUrl}" alt="${noticia.title}" onerror="this.src='https://placehold.co/300x150/2c2c2c/e0e0e0?text=Noticia ${i+1}'"> <!-- Fallback -->
+            <div class="news-content">
+              <h3>${noticia.title}</h3>
+              <p>${noticia.subtitle}</p>
+            </div>
+          </div>
+        `;
+      }
+      newsContainer.innerHTML = html;
+    }
+
+    // --- LÓGICA DE LOGIN E PERFIL DO USUÁRIO ---
+    const registerModal = document.getElementById('register-modal');
+    const registerForm = document.getElementById('register-form');
+    const headerRegisterButton = document.getElementById('header-register-btn'); 
+    const welcomeRegisterButton = document.getElementById('welcome-register-btn'); 
+    const userProfile = document.getElementById('user-profile');
+    const userNicknameSpan = document.getElementById('user-nickname');
+    const logoutButton = document.getElementById('logout-btn');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    function openRegisterModal() { registerModal.classList.add('active'); }
+    function closeRegisterModal() { registerModal.classList.remove('active'); }
+
+    userProfile.addEventListener('click', function(event) { event.stopPropagation(); dropdownMenu.classList.toggle('show'); });
+    
+    registerForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const currentLang = currentLanguage;
+      const nickname = this.querySelector('#nickname').value;
+      const password = this.querySelector('#password').value;
+      const passwordConfirm = this.querySelector('#password-confirm').value;
+
+      if (password !== passwordConfirm) { alert(translations[currentLang].alert_password_mismatch); return; }
+
+      const submitButton = this.querySelector('.btn-submit');
+      submitButton.textContent = translations[currentLang].form_registering;
+
+      setTimeout(() => {
+        submitButton.textContent = translations[currentLang].form_registered;
+        setTimeout(() => {
+          closeRegisterModal();
+          // Reset button text after closing modal using the current language
+          submitButton.textContent = translations[currentLang].register; 
+          this.reset();
+          
+          headerRegisterButton.style.display = 'none';
+          welcomeRegisterButton.style.display = 'none'; 
+          userNicknameSpan.textContent = nickname;
+          userProfile.style.display = 'flex';
+        }, 1200);
+      }, 1500);
+    });
+
+    logoutButton.addEventListener('click', function() { 
+        userProfile.style.display = 'none'; 
+        headerRegisterButton.style.display = 'block'; 
+        if (document.getElementById('inicio').classList.contains('active')) {
+            welcomeRegisterButton.style.display = 'block';
+        }
+    });
+    
+    // --- LÓGICA DO CARROSSEL ---
+    function mostrarSlide(index) {
+      const track = document.querySelector('.carousel-track');
+      const slides = document.querySelectorAll('.carousel-slide');
+      if (!track || slides.length === 0) return; 
+      if (index >= slides.length) slideIndex = 0;
+      if (index < 0) slideIndex = slides.length - 1;
+      track.style.transform = `translateX(-${slideIndex * 100}%)`;
+    }
+
+    function mudarSlide(direcao) {
+      slideIndex += direcao;
+      mostrarSlide(slideIndex);
+    }
+    
+    // --- EVENT LISTENERS ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Navegação principal
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const tabId = link.dataset.tab;
+                showTab(tabId);
+                // Gerencia visibilidade do botão de registro grande
+                if (tabId === 'inicio' && userProfile.style.display !== 'flex') {
+                    welcomeRegisterButton.style.display = 'block';
+                } else {
+                    welcomeRegisterButton.style.display = 'none';
+                }
+            });
+        });
+
+        // Navegação da Sub-aba (Ativos)
+        document.querySelectorAll('#ativos .sub-nav-link').forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const subTabId = link.dataset.subTab;
+                showSubTab(subTabId, link);
+            });
+        });
+        
+        // Navegação da Sub-aba (Simulação)
+         document.querySelectorAll('#simulacao-tab .sub-nav-link').forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const subTabId = link.dataset.simSubTab;
+                showSimulacaoSubTab(subTabId, link);
+            });
+        });
+
+        // Botões do carrossel
+        document.querySelector('.carousel-btn.left').addEventListener('click', () => mudarSlide(-1));
+        document.querySelector('.carousel-btn.right').addEventListener('click', () => mudarSlide(1));
+
+        // Botão de busca da FII
+        document.querySelector('#fii .filtros button').addEventListener('click', buscarDados); 
+
+        // Botão de simulação FII
+        document.getElementById('simular-btn').addEventListener('click', atualizarSimulacaoFII);
+        
+        // Formulário de Simulação Personalizada
+        const simForm = document.getElementById('simulacao-form');
+        if(simForm) simForm.addEventListener('submit', gerarSimulacaoPersonalizada);
+        
+        // Formulário Calculadora Renda Fixa
+        const cdiForm = document.getElementById('cdi-form');
+        if(cdiForm) cdiForm.addEventListener('submit', calcularRendaFixa);
+
+
+        // Seletor de Idioma (Reativado)
+        const langSelector = document.querySelector('.language-selector');
+        const langDropdown = document.querySelector('.lang-dropdown');
+        if (langSelector && langDropdown) { // Verifica se os elementos existem
+             langSelector.style.display = 'block'; // Mostra o seletor
+             langSelector.addEventListener('click', (event) => {
+                 event.stopPropagation();
+                 langDropdown.classList.toggle('show');
+             });
+             langDropdown.querySelectorAll('a').forEach(link => {
+                 link.addEventListener('click', (event) => {
+                     event.preventDefault();
+                     const lang = link.dataset.lang;
+                     setLanguage(lang);
+                 });
+             });
+        }
+        
+        // Fechar dropdowns ao clicar fora
+        window.addEventListener('click', (event) => {
+            if (langDropdown && langDropdown.classList.contains('show')) {
+                 langDropdown.classList.remove('show');
+            }
+            if (dropdownMenu.classList.contains('show')) {
+                dropdownMenu.classList.remove('show');
+            }
+            if (event.target == registerModal) { 
+                closeRegisterModal(); 
+            }
+        });
+
+
+        // Inicialização
+        setLanguage('pt'); // Aplica o idioma inicial
+        mostrarSlide(slideIndex);
+        showTab('inicio'); // Define a aba inicial
+        
+        if (userProfile.style.display !== 'flex') {
+            welcomeRegisterButton.style.display = 'block';
+        }
+    });
+  </script>
+</body>
+
+</html>
+
